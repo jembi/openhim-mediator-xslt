@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transformedData id="testResponse">
+    <transformedValue transformedAttr="attr2">A response for testing</transformedValue>
+</transformedData>

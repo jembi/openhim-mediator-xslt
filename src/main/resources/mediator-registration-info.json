@@ -1,6 +1,6 @@
 {
   "urn": "urn:mediator:xslt",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "name": "XSLT Mediator",
   "description": "XSLT Mediator",
   "endpoints": [
@@ -16,7 +16,7 @@
     {
       "param": "transforms",
       "displayName": "Transforms",
-      "description": "You can add your own XSLT's here. Each XSLT will be bound to a particular endpoint on the mediator. A channel or server can then route to the particular mediator endpoint that they required.",
+      "description": "You can add your own XSLTs here. Each XSLT will be bound to a particular endpoint on the mediator. A channel or server can then route to a particular mediator endpoint in order to transform requests.",
       "type": "struct",
       "array": "true",
       "template": [
@@ -26,8 +26,8 @@
           "description": "The path to bind a particular transform to",
           "type": "string"
         }, {
-          "param": "destination",
-          "displayName": "Destination URL",
+          "param": "upstream",
+          "displayName": "Upstream URL",
           "description": "The URL to route (transformed) requests to",
           "type": "string"
         }, {
@@ -38,7 +38,7 @@
         }, {
           "param": "responseTransform",
           "displayName": "Response Transform",
-          "description": "The XSLT to apply to the response that the mediator receives. Note that the XSLT will only be applied if the http response is in the 2xx range. Can leave blank for no XSLT.",
+          "description": "The XSLT to apply to the response that the mediator receives. Can leave blank for no XSLT.",
           "type": "bigstring"
         }
       ]

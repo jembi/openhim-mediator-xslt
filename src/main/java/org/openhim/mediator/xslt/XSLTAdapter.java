@@ -33,6 +33,9 @@ public class XSLTAdapter extends UntypedActor {
     private ActorRef requestHandler;
     private Map<String, String> transform;
 
+    private static final String DEFAULT_MSG = "Welcome to the OpenHIM XSLT mediator! You can add your own transforms on the OpenHIM-console via the mediators page";
+
+
     public XSLTAdapter(MediatorConfig config) {
         this.config = config;
     }
@@ -79,15 +82,15 @@ public class XSLTAdapter extends UntypedActor {
         return copy;
     }
 
-    private void forwardRequestToDestination(MediatorHTTPRequest origRequest, String content) {
-        log.info("Forwarding request to " + transform.get("destination"));
+    private void forwardRequestUpstream(MediatorHTTPRequest origRequest, String content) {
+        log.info("Forwarding request to " + transform.get("upstream"));
 
         MediatorHTTPRequest request = new MediatorHTTPRequest(
                 requestHandler,
                 getSelf(),
                 "XSLT Transform - Forward to destination",
                 origRequest.getMethod(),
-                transform.get("destination"),
+                transform.get("upstream"),
                 content,
                 copyHeaders(origRequest.getHeaders()),
                 null
@@ -98,6 +101,12 @@ public class XSLTAdapter extends UntypedActor {
     }
 
     private void processRequest(MediatorHTTPRequest request) {
+        if (request.getPath().equals("/default")) {
+            FinishRequest fr = new FinishRequest(DEFAULT_MSG, "text/plain", HttpStatus.SC_OK);
+            requestHandler.tell(fr, getSelf());
+            return;
+        }
+
         lookupTransform(request.getPath());
         if (transform==null) {
             return;
@@ -111,7 +120,7 @@ public class XSLTAdapter extends UntypedActor {
             }
         }
 
-        forwardRequestToDestination(request, content);
+        forwardRequestUpstream(request, content);
     }
 
 
@@ -133,11 +142,11 @@ public class XSLTAdapter extends UntypedActor {
 
     @Override
     public void onReceive(Object msg) throws Exception {
-        if (msg instanceof MediatorHTTPRequest) {
+        if (msg instanceof MediatorHTTPRequest) { //incoming request
             requestHandler = ((MediatorHTTPRequest) msg).getRequestHandler();
             processRequest((MediatorHTTPRequest) msg);
 
-        } else if (msg instanceof MediatorHTTPResponse) {
+        } else if (msg instanceof MediatorHTTPResponse) { //response from upstream server
             processResponse((MediatorHTTPResponse) msg);
 
         } else {

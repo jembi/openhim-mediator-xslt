@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data id="testRequest">
+    <value attr="attribute">A request for testing</value>
+</data>
