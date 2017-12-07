@@ -1,4 +1,4 @@
-[![OpenHIM Core](https://img.shields.io/badge/openhim--core-master-lightgrey.svg)](http://openhim.readthedocs.org/en/latest/user-guide/versioning.html)
+[![OpenHIM Core](https://img.shields.io/badge/openhim--core-master-lightgrey.svg)](http://openhim.readthedocs.org/en/latest/user-guide/versioning.html) [![Build Status](https://travis-ci.org/jembi/openhim-mediator-xslt.svg?branch=master)](https://travis-ci.org/jembi/openhim-mediator-xslt)
 
 # openhim-mediator-xslt
 An OpenHIM mediator that applies XSLT transformations to requests
